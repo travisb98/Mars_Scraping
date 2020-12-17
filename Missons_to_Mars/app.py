@@ -7,26 +7,41 @@ from scrape_mars import scrape
 # Create an instance of Flask
 app = Flask(__name__)
 
-#connection variable
-# conn = 'mongodb://localhost:27017'
+# connection variable
+conn = 'mongodb://localhost:27017'
 
+
+#app name
+an="mars_ap"
 
 
 # Use PyMongo to establish Mongo connection
-# mongo = PyMongo(app, uri=conn)
+mongo = PyMongo(app, uri=f"{conn}/{an}")
+
+
+
+
 
 @app.route("/")
 def home():
 
-    # data = scrape()
-    # return render_template("index.html", data=data)
 
-    testy={
-        "blue":1,
-        "green":2
-    }
 
-    return render_template("index.html", data=testy)
+
+    ##psuedo
+    ### if database exists, display the scrape button less prominently and render the template with the data. if the database doesn't exist, make the scrape buttom more prominent and use a simpler hteml template
+
+    if mongo.db.collection.count()==0:
+            home_data={
+                "blue":"database is empty, run the scrape",
+                "green":"ya nerd"
+                }
+    else:
+        home_data=mongo.db.find("Hemispheres")
+        
+
+
+    return render_template("index.html", data=home_data)
 
 
 
@@ -40,7 +55,7 @@ def scrape_page():
     data = scrape()
 
     # Update the Mongo database using update and upsert=True
-    # mongo.db.collection.update({}, data, upsert=True)
+    mongo.db.collection.update({}, data, upsert=True)
 
     # Redirect back to home page
     return redirect("/")

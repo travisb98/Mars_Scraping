@@ -141,8 +141,8 @@ def scrape():
     final_dict={
         "Hemispheres":hem_list,
         "Articles":art_dict,
-        "Featured Image":featured_image_url,
-        "Facts Dataframe":fact_df,
+        "FeaturedImage":featured_image_url,
+        "FactsDataframe":fact_df,
     }
     return final_dict
     #### END OF SCRAPING SECTION ##########
