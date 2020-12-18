@@ -137,13 +137,27 @@ def scrape():
     fact_df=pd.read_html(mars_facts_html)[0]
     fact_df
 
+    #### turn fact dataframe into a dictionary
+
+    fact_dict=fact_df.to_dict("dict")
+    fact_dict[0]
+    fact_dict[0][0]
+
+    final_fact_dict={}
+
+    for b in range(len(fact_df)):
+        final_fact_dict[fact_dict[0][b]]=fact_dict[1][b]
+
+    
+
     ##final dictionary
     final_dict={
         "Hemispheres":hem_list,
         "Articles":art_dict,
         "FeaturedImage":featured_image_url,
-        "FactsDataframe":fact_df,
+        "Facts":final_fact_dict
     }
+    print("scraping done")
     return final_dict
     #### END OF SCRAPING SECTION ##########
 
