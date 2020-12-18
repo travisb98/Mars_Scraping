@@ -32,12 +32,8 @@ def home():
     if mongo.db.mars_coll.count()==0:
         print("db is empty")
         print(mongo.db.mars_coll.count())
-        home_data={
-            "Hemispheres":"database is empty ",
-            "Articles":"you need to",
-            "FeaturedImage":"run the",
-            "Facts":"scrape"
-            }
+        home_data="The database is empty, you'll need to scrape something"
+        return render_template("splash.html", data=home_data)
         
 
     else:
@@ -46,25 +42,11 @@ def home():
 
         home_data=mongo.db.mars_coll.find_one()
 
-
-    print("------------------------")
-    print("------------------------")
-
-    # if mongo.db.mars.count()==0:
-    #         home_data={
-    #             "blue":"database is empty, run the scrape",
-    #             "green":"ya nerd"
-    #             }
-    # else:
-    #     home_data=mongo.db.collection.find_one()
-    # home_data=mongo.db.collection.Facts
-
-    # home_data=mongo.db.mars.find("Hemispheres")
-    # home_data=mongo.db.mars.Hemispheres
-    
+        print("------------------------")
+        print("------------------------")
 
 
-    return render_template("index.html", data=home_data)
+        return render_template("index.html", data=home_data)
 
 
 
@@ -77,6 +59,7 @@ def scrape_page():
 
     mars_coll=mongo.db.mars_coll
 
+    #just scrapes if the collection is empty, deletes the collection then scrapes if it's not empty
     if mars_coll.count()==0:
         # Run the scrape function
         data = scrape()
@@ -85,22 +68,6 @@ def scrape_page():
         mars_coll.drop()
         data = scrape()
         mars_coll.update({}, data, upsert=True)
-
-    
-
-
-
-    # # Run the scrape function
-    # data = scrape()
-
-
-    ###psuedo code
-    ##### if mars_db contains and collections, delete all collections and create new collection and update it with new scraped data
-
-    ## Update the Mongo database using update and upsert=True
-    # mars_coll.update({}, data, upsert=True)
-
- 
 
 
     # Redirect back to home page

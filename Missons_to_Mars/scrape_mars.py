@@ -104,7 +104,8 @@ def scrape():
         # # adds to the dictionary. The key is the hemisphere title and the value is the image link
 
         current_dict={}
-        current_dict[cur_soup.find('title').text]=hem_base_url+cur_soup.find('img',class_="wide-image")['src']
+        current_dict["title"]=cur_soup.find('title').text
+        current_dict["img_url"]=hem_base_url+cur_soup.find('img',class_="wide-image")['src']
 
         hem_list.append(current_dict)
 
@@ -116,12 +117,18 @@ def scrape():
 
     #finds the list in the html which contains the article titles and paragraphs we seek
 
-    articles=nasa_news_soup.find(class_="item_list")
+    first_art=nasa_news_soup.find(class_="item_list")
 
-    time.sleep(5)
-    #creates a dictionary with a basic index as the key and the title & paragraphs as keys
-    art_dict={item.find(class_="content_title").text:item.text for item in articles}
+    # print(first_art.text)
 
+    ## gets the articles title
+    first_art.find(class_="content_title").text
+    first_art.find(class_="article_teaser_body").text
+
+    art_dict={
+        "news_title":first_art.find(class_="content_title").text,
+        "news_p":first_art.find(class_="article_teaser_body").text
+    }
 
     #parsing the html for the jpl site
     jpl_soup=bs(jpl_html,'html.parser')
@@ -137,25 +144,14 @@ def scrape():
     fact_df=pd.read_html(mars_facts_html)[0]
     fact_df
 
-    #### turn fact dataframe into a dictionary
-
-    fact_dict=fact_df.to_dict("dict")
-    fact_dict[0]
-    fact_dict[0][0]
-
-    final_fact_dict={}
-
-    for b in range(len(fact_df)):
-        final_fact_dict[fact_dict[0][b]]=fact_dict[1][b]
-
-    
+    fact_table=fact_df.to_html(header=False,index=False)
 
     ##final dictionary
     final_dict={
         "Hemispheres":hem_list,
         "Articles":art_dict,
         "FeaturedImage":featured_image_url,
-        "Facts":final_fact_dict
+        "Facts":fact_table
     }
     print("scraping done")
     return final_dict
