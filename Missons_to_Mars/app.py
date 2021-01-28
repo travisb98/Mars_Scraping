@@ -25,7 +25,6 @@ mongo = PyMongo(app, uri=f"{conn}/{an}")
 def home():
 
 
-    ##psuedo
     ### if database exists, display the scrape button less prominently and render the template with the data. if the database doesn't exist, make the scrape buttom more prominent and use a simpler hteml template
     print("------------------------")
     print("------------------------")

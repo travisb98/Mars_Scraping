@@ -1,120 +1,55 @@
-# Web Scraping Homework - Mission to Mars
+# Mars Scraping
 
-![mission_to_mars](Images/mission_to_mars.png)
 
-In this assignment, you will build a web application that scrapes various websites for data related to the Mission to Mars and displays the information in a single HTML page. The following outlines what you need to do.
+- ## Intro
+  - The objective of the project was to successfully scrape data from multiple space related websites. After compiling the data that was scraped, I first stored it in a Mongo database. Once stored in the database, the data from our mongo database was stored on a webpage through a flask server. The webpage has a somewhat basic design and layout since this project is focused on scraping, using flask servers, and mongo databases.
+- ## Programs and Languages
+    - Jupyter Notebook
+    - BeaufigulSoup
+    - Pandas
+    - Splinter
+    - MongoDB
+    - Flask
+    - HTML
+- ## Websites Used
+    - https://mars.nasa.gov
+    - https://www.jpl.nasa.gov
+    - https://space-facts.com
+    - https://astrogeology.usgs.gov
 
-### Before You Begin
 
-1. Create a new repository for this project called `web-scraping-challenge`. **Do not add this homework to an existing repository**.
 
-2. Clone the new repository to your computer.
+- ## File overview
+  - ### app<span>.<span>py
+    ##### *the main application*
+  - ### mission_to_mars.ipynb 
+    ##### *used for initial development of scraping procedures*
+  - ### scrape_mars.py
+    ##### *this file is a cleaned-up py file version of mission_to_mars.ipynb. It contains  the scraping function that will be called in our main application file*
+  - ### index.html
+    ##### *this is the main page for the website that lists the scraped and stored data*
+  - ### splash.html
+    ##### *if you load the main page but the database is empty, you'll be redirected to this page while loading*
 
-3. Inside your local git repository, create a directory for the web scraping challenge. Use a folder name to correspond to the challenge: **Missions_to_Mars**.
 
-4. Add your notebook files to this folder as well as your flask app.
 
-5. Push the above changes to GitHub or GitLab.
+- ## Steps deployed to reach goal
+    - ### Step 1 : Developing Scraping in Jupyter Notebook
+        - I used splinter to manipulate the google chrome browser, pulling html from each site. Once I had the html for each site, I used beautifulsoup to parse the html. Initially, I set up the browser to visit each site, grab the html, parse the html, extract the data needed, then move onto the next site. However, I changed the order of these steps to limit the number of times the browser was opening and closing to increase efficiency.
+    - ### Step 2 : Create Flask Server, Connect with Mongo, and Route Paths.
+        - Used flask to create a Server which would host the webpage 
+        - Used Pymongo to set-up the Mongo database
+        - In the app file there are 2 main routes, one route being the homepage and one route being the scrape function.
+    - ### Step 3: Combining Scraping process with Flask server Webpage and Mongo database through use of route paths.
+        - Once the server and database were configured, I imported the scraping function into the app<span>.<span>py file. When the scrape button on the homepage is pressed, the user is directed to the "scrape" route which contains the execution of the scrape function. Once the data was scraped, the mongo database would be updated and the user would be redirected to the home route, which displays the scraped data.
+    
 
-## Step 1 - Scraping
+- ## Findings and Conclusion
+    - scraping data is useful and interesting. It seems like it would be more useful for one-off data retrieval instead of ongoing data retrieval considering the likelihood of a site's HTML and layout changing. Flask seems like a great tool for developing a webserver, however I'd like to see and use a version of Flask that could be used in deployment, not just development.
+    - Images of final page:
 
-Complete your initial scraping using Jupyter Notebook, BeautifulSoup, Pandas, and Requests/Splinter.
 
-* Create a Jupyter Notebook file called `mission_to_mars.ipynb` and use this to complete all of your scraping and analysis tasks. The following outlines what you need to scrape.
 
-### NASA Mars News
+    ![screenshot1](screenshot1.JPG)
 
-* Scrape the [NASA Mars News Site](https://mars.nasa.gov/news/) and collect the latest News Title and Paragraph Text. Assign the text to variables that you can reference later.
-
-```python
-# Example:
-news_title = "NASA's Next Mars Mission to Investigate Interior of Red Planet"
-
-news_p = "Preparation of NASA's next spacecraft to Mars, InSight, has ramped up this summer, on course for launch next May from Vandenberg Air Force Base in central California -- the first interplanetary launch in history from America's West Coast."
-```
-
-### JPL Mars Space Images - Featured Image
-
-* Visit the url for JPL Featured Space Image [here](https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars).
-
-* Use splinter to navigate the site and find the image url for the current Featured Mars Image and assign the url string to a variable called `featured_image_url`.
-
-* Make sure to find the image url to the full size `.jpg` image.
-
-* Make sure to save a complete url string for this image.
-
-```python
-# Example:
-featured_image_url = 'https://www.jpl.nasa.gov/spaceimages/images/largesize/PIA16225_hires.jpg'
-```
-
-### Mars Facts
-
-* Visit the Mars Facts webpage [here](https://space-facts.com/mars/) and use Pandas to scrape the table containing facts about the planet including Diameter, Mass, etc.
-
-* Use Pandas to convert the data to a HTML table string.
-
-### Mars Hemispheres
-
-* Visit the USGS Astrogeology site [here](https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars) to obtain high resolution images for each of Mar's hemispheres.
-
-* You will need to click each of the links to the hemispheres in order to find the image url to the full resolution image.
-
-* Save both the image url string for the full resolution hemisphere image, and the Hemisphere title containing the hemisphere name. Use a Python dictionary to store the data using the keys `img_url` and `title`.
-
-* Append the dictionary with the image url string and the hemisphere title to a list. This list will contain one dictionary for each hemisphere.
-
-```python
-# Example:
-hemisphere_image_urls = [
-    {"title": "Valles Marineris Hemisphere", "img_url": "..."},
-    {"title": "Cerberus Hemisphere", "img_url": "..."},
-    {"title": "Schiaparelli Hemisphere", "img_url": "..."},
-    {"title": "Syrtis Major Hemisphere", "img_url": "..."},
-]
-```
-
-- - -
-
-## Step 2 - MongoDB and Flask Application
-
-Use MongoDB with Flask templating to create a new HTML page that displays all of the information that was scraped from the URLs above.
-
-* Start by converting your Jupyter notebook into a Python script called `scrape_mars.py` with a function called `scrape` that will execute all of your scraping code from above and return one Python dictionary containing all of the scraped data.
-
-* Next, create a route called `/scrape` that will import your `scrape_mars.py` script and call your `scrape` function.
-
-  * Store the return value in Mongo as a Python dictionary.
-
-* Create a root route `/` that will query your Mongo database and pass the mars data into an HTML template to display the data.
-
-* Create a template HTML file called `index.html` that will take the mars data dictionary and display all of the data in the appropriate HTML elements. Use the following as a guide for what the final product should look like, but feel free to create your own design.
-
-![final_app_part1.png](Images/final_app_part1.png)
-![final_app_part2.png](Images/final_app_part2.png)
-
-- - -
-
-## Step 3 - Submission
-
-To submit your work to BootCampSpot, create a new GitHub repository and upload the following:
-
-1. The Jupyter Notebook containing the scraping code used.
-
-2. Screenshots of your final application.
-
-3. Submit the link to your new repository to BootCampSpot.
-
-4. Ensure your repository has regular commits (i.e. 20+ commits) and a thorough README.md file
-
-## Hints
-
-* Use Splinter to navigate the sites when needed and BeautifulSoup to help find and parse out the necessary data.
-
-* Use Pymongo for CRUD applications for your database. For this homework, you can simply overwrite the existing document each time the `/scrape` url is visited and new data is obtained.
-
-* Use Bootstrap to structure your HTML template.
-
-### Copyright
-
-Trilogy Education Services © 2020. All Rights Reserved.
+    ![screenshot1](screenshot2.JPG)
