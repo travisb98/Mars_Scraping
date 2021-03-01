@@ -20,15 +20,15 @@
 
 
 - ## File overview
-  - ### [app<span>.<span>py](GitHub_Repositories\Completed\Mars_Scraping\Missons_to_Mars\app.py)
+  - ### [app.py](./Missons_to_Mars/app.py)
     ##### *the main application*
-  - ### mission_to_mars.ipynb 
+  - ### [mission_to_mars.ipynb](./Missons_to_Mars/mission_to_mars.ipynb)
     ##### *used for initial development of scraping procedures*
-  - ### scrape_mars.py
+  - ### [scrape_mars.py](./Missons_to_Mars/scrape_mars.py)
     ##### *this file is a cleaned-up py file version of mission_to_mars.ipynb. It contains  the scraping function that will be called in our main application file*
-  - ### index.html
+  - ### [index.html](./Missons_to_Mars/templates/index.html)
     ##### *this is the main page for the website that lists the scraped and stored data*
-  - ### splash.html
+  - ### [splash.html](./Missons_to_Mars/templates/splash.html)
     ##### *if you load the main page but the database is empty, you'll be redirected to this page while loading*
 
 
