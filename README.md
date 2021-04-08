@@ -5,7 +5,7 @@
   - The objective of the project was to successfully scrape data from multiple space related websites and display the data on a webpage. After compiling the data that was scraped, I first stored it in a Mongo database. Once stored in the database, the data from our mongo database was stored on a webpage through a flask server. The webpage has a somewhat basic design and layout since this project is focused on scraping, using flask servers, and mongo databases.
 - ## Programs and Languages
     - Jupyter Notebook
-    - BeaufifulSoup
+    - BeautifulSoup
     - Pandas
     - Splinter
     - MongoDB
